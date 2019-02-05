@@ -9,12 +9,10 @@ pipeline {
             }
         }
         stage('Build Docker Image') {
-            when {
-                branch 'master'
-            }
+            
             steps {
                 script {
-                    app = docker.build("<docker_login_id>/node-app")
+                    app = docker.build("mogunu/node-app")
                     app.inside {
                         sh 'echo $(curl localhost:8080)'
                     }
@@ -22,9 +20,7 @@ pipeline {
             }
         }
         stage('Push Docker Image') {
-            when {
-                branch 'master'
-            }
+            
             steps {
                 script {
                     docker.withRegistry('https://registry.hub.docker.com', 'docker_hub_login') {
